@@ -1,0 +1,54 @@
+analyze_company_profile:
+  description: >
+    Analyze the company profile information for ticker {ticker} (CIK: {cik}).
+    The company profile data is provided: {company_profile}
+    
+    Analyze the company profile information including company name, industry, exchange,
+    business description, and other fundamental information. Provide insights about
+    the company's business model and industry positioning.
+  expected_output: >
+    A comprehensive analysis of the company profile including:
+    - Company overview and business description
+    - Industry classification and positioning
+    - Key business fundamentals
+    - Notable company characteristics
+  agent: research_analyst
+
+analyze_financial_metrics:
+  description: >
+    Analyze the financial metrics data for ticker {ticker} (CIK: {cik}).
+    The financial metrics data is provided: {financial_metrics}
+    
+    Analyze the financial metrics data including Revenues, Net Income, and Assets.
+    Identify trends, patterns, and key insights from the financial data. Compare
+    current performance to historical data if available. Highlight any significant
+    changes or notable observations.
+  expected_output: >
+    A detailed financial analysis including:
+    - Key financial metrics summary (Revenues, Net Income, Assets)
+    - Trend analysis and year-over-year comparisons
+    - Financial health indicators
+    - Notable patterns or anomalies
+    - Risk factors or concerns identified
+  agent: financial_analyst
+
+synthesize_financial_snapshot:
+  description: >
+    Synthesize the company profile analysis and financial metrics analysis into a
+    comprehensive financial snapshot for {ticker} (CIK: {cik}).
+    
+    Review the previous analyses from analyze_company_profile and analyze_financial_metrics
+    and create a professional summary that combines both the business fundamentals and
+    financial performance into a cohesive narrative. The summary should be 2-3 paragraphs,
+    concise, factual, and suitable for stakeholders who need a quick overview of the
+    company's financial position.
+  expected_output: >
+    A professional financial snapshot summary (2-3 paragraphs) that includes:
+    1. Company overview (name, industry, exchange, business description)
+    2. Key financial metrics and recent trends
+    3. Notable observations, risks, or opportunities
+    The summary should be clear, concise, and professionally written.
+  agent: financial_analyst
+  context:
+    - analyze_company_profile
+    - analyze_financial_metrics

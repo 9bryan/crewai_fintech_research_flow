@@ -1,0 +1,8 @@
+{                                                                              
+  "mcpServers": {                                                              
+    "CrewAI MCP": {                                                            
+      "type": "streamable-http",                                               
+      "url": "https://crewai-expert-mcp.onrender.com/mcp"                      
+    }                                                                          
+  }                                                                            
+} 
