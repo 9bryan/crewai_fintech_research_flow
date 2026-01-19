@@ -34,17 +34,25 @@ class FinancialSnapshotFlow(Flow[FinancialSnapshotState]):
     """Flow to generate a company financial snapshot."""
 
     @start()
-    def initialize_ticker(self, crewai_trigger_payload: dict = None):
+    def initialize_ticker(self, ticker: str = "LAD", crewai_trigger_payload: dict = None):
         """
         Initialize the flow with a ticker symbol.
         
-        Can receive ticker from trigger payload or use default.
+        Args:
+            ticker: Stock ticker symbol (e.g., "AAPL", "MSFT"). Defaults to "LAD".
+            crewai_trigger_payload: Optional trigger payload (for backward compatibility).
+        
+        Can receive ticker as a direct parameter or from trigger payload.
         """
-        if crewai_trigger_payload:
+        # Priority: direct parameter > trigger payload > default
+        if ticker and ticker != "LAD":  # Explicit ticker provided
+            self.state.ticker = ticker.upper().strip()
+            print(f"[FinancialSnapshotFlow]: Received ticker parameter: {self.state.ticker}")
+        elif crewai_trigger_payload and crewai_trigger_payload.get("ticker"):
             self.state.ticker = crewai_trigger_payload.get("ticker", "").upper().strip()
             print(f"[FinancialSnapshotFlow]: Received ticker from trigger: {self.state.ticker}")
         else:
-            # Default ticker (can be overridden)
+            # Default ticker
             self.state.ticker = "LAD"
             print(f"[FinancialSnapshotFlow]: Using default ticker: {self.state.ticker}")
         

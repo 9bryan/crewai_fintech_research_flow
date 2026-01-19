@@ -23,7 +23,8 @@ def financial_snapshot(ticker: str = "LAD"):
         The flow result
     """
     flow = FinancialSnapshotFlow()
-    result = flow.kickoff({"crewai_trigger_payload": {"ticker": ticker}})
+    # Pass ticker directly as a parameter (Enterprise will discover this)
+    result = flow.kickoff({"ticker": ticker})
     
     # Print the summary
     print("\n" + "="*60)
