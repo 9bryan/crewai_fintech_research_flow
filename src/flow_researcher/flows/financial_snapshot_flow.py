@@ -7,7 +7,7 @@ A simple flow that retrieves a company's financial overview including:
 """
 
 import json
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from typing import Optional, Dict, Any
 
 from crewai.flow import Flow, listen, router, start
@@ -21,13 +21,37 @@ from flow_researcher.crews.financial_analyst_crew.financial_analyst_crew import 
 
 
 class FinancialSnapshotState(BaseModel):
-    """State for the financial snapshot flow."""
-    ticker: str = Field(default="", description="Stock ticker symbol")
+    """State for the financial snapshot flow.
+    
+    Note: Only 'ticker' should be provided as input. All other fields are
+    populated internally by the flow and should not be set via inputs.
+    """
+    ticker: str = Field(default="LAD", description="Stock ticker symbol")
     cik: str = Field(default="", description="Company CIK number")
-    company_profile: Optional[Dict[str, Any]] = None
-    financial_metrics: Optional[Dict[str, Any]] = None
+    company_profile: Optional[Dict[str, Any]] = Field(default=None, exclude=True)
+    financial_metrics: Optional[Dict[str, Any]] = Field(default=None, exclude=True)
     snapshot_summary: str = Field(default="", description="Formatted summary of the snapshot")
     error_message: str = Field(default="", description="Error message if any step fails")
+    
+    model_config = {
+        "extra": "forbid",  # Don't allow extra fields
+    }
+    
+    @model_validator(mode="before")
+    @classmethod
+    def filter_inputs(cls, data):
+        """Only allow 'ticker' to be set from external inputs.
+        
+        Enterprise may try to pass company_profile and financial_metrics,
+        but these should be ignored and set internally by the flow.
+        """
+        if isinstance(data, dict):
+            # Only allow ticker from external inputs
+            # Ignore company_profile, financial_metrics, cik, etc. - they're internal
+            allowed_inputs = {"ticker"}
+            filtered = {k: v for k, v in data.items() if k in allowed_inputs}
+            return filtered
+        return data
 
 
 class FinancialSnapshotFlow(Flow[FinancialSnapshotState]):
