@@ -1,8 +1,8 @@
 analyze_company_profile:
   description: >
-    Analyze the company profile information for ticker {ticker} (CIK: {cik}).
-    The company profile data is provided: {company_profile}
+    Analyze the company profile information that has been provided in the inputs.
     
+    The inputs contain the ticker symbol, CIK number, and company profile data.
     Analyze the company profile information including company name, industry, exchange,
     business description, and other fundamental information. Provide insights about
     the company's business model and industry positioning.
@@ -16,9 +16,9 @@ analyze_company_profile:
 
 analyze_financial_metrics:
   description: >
-    Analyze the financial metrics data for ticker {ticker} (CIK: {cik}).
-    The financial metrics data is provided: {financial_metrics}
+    Analyze the financial metrics data that has been provided in the inputs.
     
+    The inputs contain the ticker symbol, CIK number, and financial metrics data.
     Analyze the financial metrics data including Revenues, Net Income, and Assets.
     Identify trends, patterns, and key insights from the financial data. Compare
     current performance to historical data if available. Highlight any significant
@@ -35,13 +35,14 @@ analyze_financial_metrics:
 synthesize_financial_snapshot:
   description: >
     Synthesize the company profile analysis and financial metrics analysis into a
-    comprehensive financial snapshot for {ticker} (CIK: {cik}).
+    comprehensive financial snapshot.
     
     Review the previous analyses from analyze_company_profile and analyze_financial_metrics
     and create a professional summary that combines both the business fundamentals and
     financial performance into a cohesive narrative. The summary should be 2-3 paragraphs,
     concise, factual, and suitable for stakeholders who need a quick overview of the
-    company's financial position.
+    company's financial position. Use the ticker and CIK information from the inputs
+    to identify the company in your summary.
   expected_output: >
     A professional financial snapshot summary (2-3 paragraphs) that includes:
     1. Company overview (name, industry, exchange, business description)
